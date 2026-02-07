@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61344fd4886f3b143a7cbc053ce3f1b3, type: 3}
+  m_Name: ExplosiveCan
+  m_EditorClassIdentifier: 
+  itemName: Explosive Can
+  icon: {fileID: 21300000, guid: d8bfc8c6164eb0b428a43cb7d38ab26c, type: 3}
+  pickupMessage: 
+  isStackable: 0
+  category: 0
+  description: Aerosol Can Wrapped in Cloth tha has been soaked in Kerosene
+  healAmount: 0
