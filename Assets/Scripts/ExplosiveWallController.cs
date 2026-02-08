@@ -2,17 +2,28 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using System.Collections.Generic;
-public class ExplosiveWallController : MonoBehaviour,IInteractable
+using System;
+using UnityEngine.Playables;
+public class ExplosiveWallController : MonoBehaviour, IInteractable
 {
+    [SerializeField] private GameObject explosionCutScene;
+    [SerializeField] private PlayableDirector director;
+    private TextMeshProUGUI textMeshPro;
+
     public bool hasExplosiveCan;
     public bool hasInteractedOnce;
 
     [Header("Dialogue UI")]
     public GameObject dialogueObject;
     public GameObject dialogueBox;
-    private TextMeshProUGUI textMeshPro;
 
+    private TimelineSubtitleBinder subtitleBinder;
     private InteractDialogueController dialogueController;
+
+    public void Awake()
+    {
+        subtitleBinder = director.GetComponent<TimelineSubtitleBinder>();
+    }
 
     public string InteractionPrompt
     {
@@ -39,15 +50,18 @@ public class ExplosiveWallController : MonoBehaviour,IInteractable
         if (Inventory.Instance.HasItem("Explosive Can"))
         {
             hasExplosiveCan = true;
-            Inventory.Instance.RemoveItem("Explosive Can", 1);
+            Inventory.Instance.RemoveItem("Explosive Can", 1);           
         }
-    
-        Debug.Log("ExplosiveWallController.Interact() called");
+
+        if (hasExplosiveCan)
+        {
+            StartCutScene();
+            return;
+        }
 
         if (dialogueController == null && dialogueObject != null)
             dialogueController = dialogueObject.GetComponent<InteractDialogueController>();
 
-        // If the dialogue is currently showing, try to close it
         if (dialogueController != null && dialogueController.isShowingDialogue)
         {
             dialogueController.TryClose();
@@ -55,22 +69,32 @@ public class ExplosiveWallController : MonoBehaviour,IInteractable
         }
 
         ShowDialogue(InteractionPrompt);
-        // Update interaction state
-        if (!hasInteractedOnce && !hasExplosiveCan)
-        {
+
+        if (!hasInteractedOnce)
             hasInteractedOnce = true;
-            
-        }
+    }
 
-        else if (hasInteractedOnce)
-        {
-            ShowDialogue(InteractionPrompt);
-        }
+    private void StartCutScene()
+    {
 
-        else if(hasExplosiveCan)
-        {
-            ShowDialogue(InteractionPrompt);
-        }
+        InputManagerController.Instance.SetPlayerMovement(false);
+
+        subtitleBinder.Rebind(); // <-- Important
+
+        director.stopped += OnCutSceneFinished;
+        director.Play();
+
+    }
+
+    private void OnCutSceneFinished(PlayableDirector director)
+    {
+        // Re-enable movement
+        InputManagerController.Instance.SetPlayerMovement(true);
+
+        explosionCutScene.SetActive(false);
+
+        // Unsubscribe (VERY IMPORTANT)
+        director.stopped -= OnCutSceneFinished;
     }
 
     private void ShowDialogue(string message)
@@ -78,18 +102,18 @@ public class ExplosiveWallController : MonoBehaviour,IInteractable
         if (dialogueObject == null || textMeshPro == null)
             return;
 
-        if (dialogueController == null) 
+        if (dialogueController == null)
         {
             dialogueController = dialogueObject.GetComponent<InteractDialogueController>();
-            
+
         }
-            
+
 
         textMeshPro.text = message;
         dialogueController.Show();
     }
 }
 
-// Start is called once before the first execution of Update after the MonoBehaviour is created
+
 
 

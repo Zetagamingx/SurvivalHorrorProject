@@ -1,7 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System;
 using Unity.VisualScripting;
+
 
 public class TriggerExplosionController : MonoBehaviour
 {
@@ -16,11 +18,14 @@ public class TriggerExplosionController : MonoBehaviour
     private Animator animatorExplosion;
     private Animator animatorLightForExplosion;
     public float delayForExplosive;
+    [SerializeField] public bool hasToExplode;
 
     public void Start()
     {
         animatorExplosion = explosionPieces.GetComponent<Animator>();
         animatorLightForExplosion = explosionLight.GetComponent<Animator>();
+
+        if (hasToExplode) StartCoroutine(ExplodeTheWall());
     }
     public void OnTriggerExit(Collider other)
     {
@@ -36,11 +41,10 @@ public class TriggerExplosionController : MonoBehaviour
     {
         
         animatorExplosion.SetTrigger("explode");
-        animatorLightForExplosion.SetTrigger("explode");
         
-
         yield return new WaitForSecondsRealtime(delayForExplosive);
 
+        animatorLightForExplosion.SetTrigger("explode");
         brokenWall.SetActive(true);
         holeInTheWallCollider.SetActive(false);
         unbrokenWall.SetActive(false);
