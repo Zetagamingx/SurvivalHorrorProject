@@ -40,15 +40,4 @@ public class SceneManagerController : MonoBehaviour
         else
             Debug.LogWarning("Scene not found in sceneMap!");
     }
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
