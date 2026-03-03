@@ -1,101 +1,150 @@
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TitleScreenUINavigation : MonoBehaviour, InputSystem_Actions.IUIActions
 {
-    private List<Button> currentButtons = new List<Button>();
+    [SerializeField] private TitleSelectionModel titleSelectionModel;
+    [SerializeField] private Transform defaultMenuRoot;
+
+    private InputSystem_Actions controlsUI;
+
+    private List<IUISelectable> currentSelectables = new List<IUISelectable>();
     private int currentIndex = 0;
-
-    private InputSystem_Actions controlsUI => InputManagerController.Instance.controls;
-
+    
     private float navigateCooldown = 0.2f;
     private float lastNavigateTime;
 
-    private void OnEnable()
+    private void Start()
     {
-        if (controlsUI != null)
-            controlsUI.UI.SetCallbacks(this);
+        // --- Initialize Input ---
+        if (InputManagerController.Instance == null)
+        {
+            Debug.LogError("InputManagerController not found.");
+            return;
+        }
+
+        controlsUI = InputManagerController.Instance.controls;
+
+        if (controlsUI == null)
+        {
+            Debug.LogError("Controls not initialized.");
+            return;
+        }
+
+        controlsUI.UI.SetCallbacks(this);
+
+        // --- Initialize first menu ---
+        InitializeFirstMenu();
     }
 
+    private void OnEnable()
+    {
+        if (titleSelectionModel != null)
+            titleSelectionModel.OnSectionChanged += HandleSectionChanged;
+    }
     private void OnDisable()
     {
         if (controlsUI != null)
             controlsUI.UI.SetCallbacks(null);
+
+        if (titleSelectionModel != null)
+            titleSelectionModel.OnSectionChanged -= HandleSectionChanged;
     }
 
-    /// <summary>
-    /// Call this whenever the active UI section changes.
-    /// Pass the transform of the active section root.
-    /// </summary>
+    private void InitializeFirstMenu()
+    {
+        if (defaultMenuRoot == null)
+        {
+            Debug.LogError("[NAV] Default menu root not assigned.");
+            return;
+        }
+
+        SetActiveMenu(defaultMenuRoot);
+    }
+
+
     public void SetActiveMenu(Transform menuRoot)
     {
         if (menuRoot == null)
         {
-            Debug.LogError("SetActiveMenu called with NULL transform");
+            Debug.LogError("[NAV] SetActiveMenu called with NULL");
             return;
         }
 
-        Debug.Log($"[NAV] Setting active menu: {menuRoot.name}");
+        currentSelectables.Clear();
 
-        currentButtons.Clear();
+        var selectables = menuRoot
+            .GetComponentsInChildren<MonoBehaviour>(true)
+            .OfType<IUISelectable>();
 
-        foreach (Transform child in menuRoot)
+        foreach (var selectable in selectables)
         {
-            Debug.Log($"[NAV] Checking child: {child.name}");
-
-            Button button = child.GetComponent<Button>();
-            if (button != null)
-            {
-                Debug.Log($"[NAV] Found button: {child.name}");
-                currentButtons.Add(button);
-            }
+            currentSelectables.Add(selectable);
+            Debug.Log($"[NAV] Found selectable: {((MonoBehaviour)selectable).name}");
         }
 
-        Debug.Log($"[NAV] Total buttons found: {currentButtons.Count}");
+        Debug.Log($"[NAV] Total selectables: {currentSelectables.Count}");
 
         currentIndex = 0;
 
-        if (currentButtons.Count > 0)
-            SelectButton(currentButtons[currentIndex]);
+        if (currentSelectables.Count > 0)
+        {
+            currentSelectables[currentIndex].OnSelected();
+        }
     }
 
-    private void SelectButton(Button button)
+    private void HandleSectionChanged()
     {
-        button.Select();
+        // Find the active child section
+        foreach (Transform child in transform)
+        {
+            if (child.gameObject.activeSelf)
+            {
+                SetActiveMenu(child);
+                break;
+            }
+        }
     }
 
     public void OnNavigate(InputAction.CallbackContext context)
     {
-        if (!context.performed || currentButtons.Count == 0)
+        if (!context.performed || currentSelectables.Count == 0)
             return;
-
-        Vector2 navigation = context.ReadValue<Vector2>();
 
         if (Time.time - lastNavigateTime < navigateCooldown)
             return;
 
+        Vector2 navigation = context.ReadValue<Vector2>();
+
+        int previousIndex = currentIndex;
+
         if (navigation.y <= -0.5f) // Down
         {
-            currentIndex = (currentIndex + 1) % currentButtons.Count;
-            SelectButton(currentButtons[currentIndex]);
-            lastNavigateTime = Time.time;
+            currentIndex = (currentIndex + 1) % currentSelectables.Count;
         }
         else if (navigation.y >= 0.5f) // Up
         {
-            currentIndex = (currentIndex - 1 + currentButtons.Count) % currentButtons.Count;
-            SelectButton(currentButtons[currentIndex]);
-            lastNavigateTime = Time.time;
+            currentIndex = (currentIndex - 1 + currentSelectables.Count) % currentSelectables.Count;
         }
+        else
+        {
+            return;
+        }
+
+        currentSelectables[previousIndex].OnDeselected();
+        currentSelectables[currentIndex].OnSelected();
+
+        lastNavigateTime = Time.time;
     }
 
     public void OnSubmit(InputAction.CallbackContext context)
     {
-        if (!context.performed || currentButtons.Count == 0)
+        if (!context.performed || currentSelectables.Count == 0)
             return;
 
-        currentButtons[currentIndex].onClick.Invoke();
+        currentSelectables[currentIndex].OnSubmit();
     }
 
     // Unused interface methods

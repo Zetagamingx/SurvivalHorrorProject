@@ -1,10 +1,9 @@
 using UnityEngine;
 
-public class StartButtonController : BasicClickController, IUISelectable
+public class ExitButtonController : BasicClickController, IUISelectable
 {
-
     [SerializeField] private UIButtonVisual visual;
-    
+
 
     protected override void Awake()
     {
@@ -33,6 +32,10 @@ public class StartButtonController : BasicClickController, IUISelectable
 
         // Call ViewModel / Model logic here
         Debug.Log("Start button pressed.");
-        SceneManagerController.Instance.LoadScene(GameScene.IntroScene);
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
 }
