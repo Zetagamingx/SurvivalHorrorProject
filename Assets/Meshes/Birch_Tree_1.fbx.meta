@@ -3,7 +3,17 @@ guid: 2760fc9bdb904d944be5b1062f6c33dd
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Forest_Pack_Atlas_1
+    second: {fileID: 2100000, guid: e1ce0befa23abf848a988e0014f6f178, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Forest_Pack_BaseColor
+    second: {fileID: 2100000, guid: 4bd75ffdf9dfe0f48834b0f89359e002, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
