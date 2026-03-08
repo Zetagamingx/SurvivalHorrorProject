@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public enum GameScene
 {
     TitleScreen,
+    IntroCinematic,
     IntroScene,
     HospitalScene,
 }
@@ -28,6 +29,7 @@ public class SceneManagerController : MonoBehaviour
         sceneMap = new Dictionary<GameScene, string>
         {
             {GameScene.TitleScreen, "TitleScreen" },
+            {GameScene.IntroCinematic, "IntroCinematic"},
             {GameScene.IntroScene, "IntroScene" },
             {GameScene.HospitalScene, "HospitalScene"}
         };
@@ -39,5 +41,16 @@ public class SceneManagerController : MonoBehaviour
             SceneManager.LoadScene(sceneName);
         else
             Debug.LogWarning("Scene not found in sceneMap!");
+    }
+
+    public AsyncOperation LoadSceneAsync(GameScene scene)
+    {
+        if (sceneMap.TryGetValue(scene, out string sceneName))
+            return SceneManager.LoadSceneAsync(sceneName);
+        else
+        {
+            Debug.LogWarning("Scene not found in sceneMap!");
+            return null;
+        }
     }
 }

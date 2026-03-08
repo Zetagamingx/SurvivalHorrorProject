@@ -37,6 +37,7 @@ public class TitleSelectionController : BasicClickController, IUISelectable
     {
         visual.PlayPressed();
         titleSelectionModel.ShowSection(SectionToActivate);
+        AudioManager.Instance.PlaySfx("emptybottlebump");
         
         // Call ViewModel / Model logic here
         Debug.Log("Load Game button pressed.");

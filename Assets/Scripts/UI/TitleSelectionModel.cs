@@ -13,9 +13,5 @@ public class TitleSelectionModel : MonoBehaviour
         CurrentSection = section;
         OnSectionChanged?.Invoke();
     }
-
-    public void StartGame()
-    {
-        SceneManagerController.Instance.LoadScene(GameScene.IntroScene);
-    }
+        
 }

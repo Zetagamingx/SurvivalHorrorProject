@@ -1,10 +1,12 @@
+using System;
 using UnityEngine;
 
 public class StartButtonController : BasicClickController, IUISelectable
 {
 
     [SerializeField] private UIButtonVisual visual;
-    
+
+    public static event Action OnBeginGame;
 
     protected override void Awake()
     {
@@ -30,9 +32,9 @@ public class StartButtonController : BasicClickController, IUISelectable
     public void OnSubmit()
     {
         visual.PlayPressed();
+        AudioManager.Instance.PlaySfx("crackedoor");
+        OnBeginGame?.Invoke();
 
-        // Call ViewModel / Model logic here
         Debug.Log("Start button pressed.");
-        SceneManagerController.Instance.LoadScene(GameScene.IntroScene);
     }
 }

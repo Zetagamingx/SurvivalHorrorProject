@@ -136,6 +136,8 @@ public class TitleScreenUINavigation : MonoBehaviour, InputSystem_Actions.IUIAct
         currentSelectables[previousIndex].OnDeselected();
         currentSelectables[currentIndex].OnSelected();
 
+        AudioManager.Instance.PlaySfx("fingersnap");
+
         lastNavigateTime = Time.time;
     }
 
