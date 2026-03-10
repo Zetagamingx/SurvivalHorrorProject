@@ -43,7 +43,7 @@ public class TitleFadeOut : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
-        SceneManagerController.Instance.LoadScene(GameScene.IntroCinematic);
+        SceneManagerController.Instance.LoadScene(GameScene.IntroScene);
                 
     }
 }

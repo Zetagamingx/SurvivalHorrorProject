@@ -11,11 +11,14 @@ public class ItemPickup : MonoBehaviour, IObtainable
     [SerializeField] private int quantity = 1;
 
     [Header("Dialogue UI")]
+
     public GameObject dialogueObject;
     public GameObject dialogueBox;
+
     private TextMeshProUGUI textMeshPro;
     private InteractDialogueController dialogueController;
-    
+    private IPickupCondition pickupCondition;
+
     public string InteractionPrompt => itemData != null ? itemData.pickupMessage : "";
 
     public ItemData Data => itemData;
@@ -24,8 +27,11 @@ public class ItemPickup : MonoBehaviour, IObtainable
     private void Start()
     {
         textMeshPro = dialogueBox.GetComponent<TextMeshProUGUI>();
+
         if (dialogueController == null && dialogueObject != null)
             dialogueController = dialogueObject.GetComponent<InteractDialogueController>();
+
+        pickupCondition = GetComponent<IPickupCondition>();
     }
 
     public void Interact()
@@ -37,6 +43,24 @@ public class ItemPickup : MonoBehaviour, IObtainable
     {
         if (dialogueController == null)
             dialogueController = dialogueObject.GetComponent<InteractDialogueController>();
+                
+        if (pickupCondition != null && !pickupCondition.CanPickup())
+        {
+            textMeshPro.text = pickupCondition.GetBlockedMessage();
+            dialogueController.Show();
+
+            yield return new WaitUntil(() => dialogueController.CanClose);
+
+            // Wait for player to release the key first
+            yield return new WaitUntil(() => Keyboard.current != null && !Keyboard.current.eKey.isPressed);
+
+            // Now wait for the next press
+            yield return new WaitUntil(() => Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame);
+
+            dialogueController.Hide();
+
+            yield break;
+        }
 
         textMeshPro.text = InteractionPrompt;
         dialogueController.Show();

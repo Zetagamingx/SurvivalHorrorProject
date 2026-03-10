@@ -2,12 +2,24 @@ using UnityEngine;
 
 public class InteractDialogueController : MonoBehaviour
 {
+    public static InteractDialogueController Instance { get; private set; }
+
     public GameObject dialogueBox;
     public float graceDelay = 1f;
 
     private bool canClose = false;
     public bool CanClose => canClose;
     public bool isShowingDialogue { get; private set; } = false;
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     public void Show()
     {
