@@ -17,7 +17,7 @@ public abstract class UINavigationBase : MonoBehaviour, InputSystem_Actions.IUIA
         if (!context.performed || currentSelectables.Count == 0)
             return;
 
-        if (Time.time - lastNavigateTime < navigateCooldown)
+        if (Time.unscaledTime - lastNavigateTime < navigateCooldown)
             return;
 
         Vector2 navigation = context.ReadValue<Vector2>();
@@ -34,7 +34,7 @@ public abstract class UINavigationBase : MonoBehaviour, InputSystem_Actions.IUIA
         currentSelectables[previousIndex].OnDeselected();
         currentSelectables[currentIndex].OnSelected();
 
-        lastNavigateTime = Time.time;
+        lastNavigateTime = Time.unscaledTime;
     }
 
     public virtual void OnSubmit(InputAction.CallbackContext context)
@@ -46,7 +46,7 @@ public abstract class UINavigationBase : MonoBehaviour, InputSystem_Actions.IUIA
     }
 
     // leave others empty
-    public void OnCancel(InputAction.CallbackContext context) { }
+    public virtual void OnCancel(InputAction.CallbackContext context) { }
     public void OnClick(InputAction.CallbackContext context) { }
     public void OnMiddleClick(InputAction.CallbackContext context) { }
     public void OnPoint(InputAction.CallbackContext context) { }

@@ -31,6 +31,7 @@ public class PauseGameController : MonoBehaviour
     {
         if (canPauseGame)
         {
+            Time.timeScale = 0f;
             canPauseGame = false;
             bgImage.SetActive(true);
             sectionContainer.SetActive(true);
@@ -47,6 +48,7 @@ public class PauseGameController : MonoBehaviour
     {
         if (!canPauseGame && IsOnMainSection)
         {
+            Time.timeScale = 1.0f;
             canPauseGame = true;
             bgImage.SetActive(false);
             sectionContainer.SetActive(false);

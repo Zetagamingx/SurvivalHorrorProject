@@ -8,8 +8,11 @@ public class PauseSelectionController : BasicClickController, IUISelectable
     private PauseSelectionModel pauseSelectionModel;
     private PauseSelectionViewModel pauseSelectionViewModel;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+        if (visual == null)
+            visual = GetComponent<UIButtonVisual>();
         pauseSelectionModel = GetComponentInParent<PauseSelectionModel>();
         pauseSelectionViewModel = GetComponentInParent<PauseSelectionViewModel>();
     }
