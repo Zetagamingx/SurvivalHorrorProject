@@ -34,4 +34,19 @@ public class InputManagerController : MonoBehaviour
         else
             controls.Player.Disable();
     }
+
+    public void ReinitializeControls()
+    {
+        if (controls != null)
+        {
+            controls.Disable();
+        }
+
+        controls = new InputSystem_Actions();
+        controls.Enable();
+
+        // Restore state
+        if (!shouldMove)
+            controls.Player.Disable();
+    }
 }

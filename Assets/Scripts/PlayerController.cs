@@ -1,23 +1,23 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class PlayerController : MonoBehaviour, InputSystem_Actions.IPlayerActions
 {
-
+    [SerializeField] Volume globalVolume;
     private InputSystem_Actions controls => InputManagerController.Instance.controls;
-    public GameObject characterSubparent;
     private Rigidbody characterRb;
-    public GameObject characterMainObject;
     private Vector2 inputVector;
+    private Animator animator;
+    private float mouseX;
+    private PlayerDetection detection;
+
+    public GameObject characterSubparent;
+    public GameObject characterMainObject;
     public int moveSpeed;
     public bool isWalking = false;
-
-    private Animator animator;
-
-    private float mouseX;
     public float rotationSpeed = 10f;
-
-    private PlayerDetection detection;
+    
 
     
     public void Awake()
@@ -177,5 +177,13 @@ public class PlayerController : MonoBehaviour, InputSystem_Actions.IPlayerAction
         
         InventoryNavigation.Instance.ToggleInventory();
 
-    }    
+    }
+
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+
+        PauseBlurController.Instance.ActivateBluer();
+        PauseGameController.Instance.PauseGame();
+    }
 }

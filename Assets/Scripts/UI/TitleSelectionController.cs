@@ -21,6 +21,7 @@ public class TitleSelectionController : BasicClickController, IUISelectable
     protected override void OnClick()
     {
         titleSelectionModel.ShowSection(SectionToActivate);
+        AudioManager.Instance.PlaySfx("emptybottlebump");
     }
 
     public void OnDeselected()

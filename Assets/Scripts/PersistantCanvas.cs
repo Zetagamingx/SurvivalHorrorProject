@@ -15,4 +15,10 @@ public class PersistantCanvas : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
+
+    public void DestroyForTitle()
+    {
+        Instance = null; // important to avoid stale reference
+        Destroy(gameObject);
+    }
 }

@@ -1,59 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2292392042313082314
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 297817547462755183}
-  - component: {fileID: 6528054449972825795}
-  m_Layer: 0
-  m_Name: PSXshadeManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &297817547462755183
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2292392042313082314}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2583033180004354351}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6528054449972825795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2292392042313082314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1a4c69f7a9d3ea43907b5765229dc85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _TextureWarpingFactor: 1
-  _TextureWarpingMode: 0
-  _VertexGridResolution: 100
-  _VertexWobbleMode: 0
-  _UseRetroVertexLighting: 1
-  _RetroLightingNormalFactor: 0
-  _RetroLightFalloffStart: 0
-  _FlatShadingMode: 0
-  _TriangleSortMode: 0
-  _DepthDebugView: 0
 --- !u!1 &3037261674338502655
 GameObject:
   m_ObjectHideFlags: 0
@@ -65,6 +11,7 @@ GameObject:
   - component: {fileID: 2583033180004354351}
   - component: {fileID: 9198230441788799214}
   - component: {fileID: 6380402878917294290}
+  - component: {fileID: 6772474841658600140}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -87,7 +34,6 @@ Transform:
   m_Children:
   - {fileID: 7545480672034075485}
   - {fileID: 3652488896590381489}
-  - {fileID: 297817547462755183}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9198230441788799214
@@ -102,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a531d420f2d97814c8cc869b1d9baf26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shouldMove: 1
 --- !u!114 &6380402878917294290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,6 +59,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 94e4655e3e5c1794682880ea4d3aed84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6772474841658600140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3037261674338502655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5618a9ea08492064da4f42d754689aa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6574146334038477507

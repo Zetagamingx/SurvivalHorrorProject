@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -51,6 +52,28 @@ public class SceneManagerController : MonoBehaviour
         {
             Debug.LogWarning("Scene not found in sceneMap!");
             return null;
+        }
+    }
+
+    public void RestartGame()
+    {
+        LoadScene(GameScene.TitleScreen);
+        InputManagerController.Instance.ReinitializeControls();
+        StartCoroutine(DestroyNextFrame());
+    }
+
+    private IEnumerator DestroyNextFrame()
+    {
+        yield return null;
+
+        var objs = Object.FindObjectsByType<GameplayPersistent>(
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None
+        );
+
+        foreach (var obj in objs)
+        {
+            Destroy(obj.gameObject);
         }
     }
 }

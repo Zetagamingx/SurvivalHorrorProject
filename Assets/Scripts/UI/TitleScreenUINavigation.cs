@@ -1,24 +1,18 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class TitleScreenUINavigation : MonoBehaviour, InputSystem_Actions.IUIActions
+public class TitleScreenUINavigation : UINavigationBase
 {
     [SerializeField] private TitleSelectionModel titleSelectionModel;
     [SerializeField] private Transform defaultMenuRoot;
 
     private InputSystem_Actions controlsUI;
 
-    private List<IUISelectable> currentSelectables = new List<IUISelectable>();
-    private int currentIndex = 0;
-    
-    private float navigateCooldown = 0.2f;
-    private float lastNavigateTime;
-
-    private void Start()
+    private void Awake()
     {
-        // --- Initialize Input ---
         if (InputManagerController.Instance == null)
         {
             Debug.LogError("InputManagerController not found.");
@@ -32,25 +26,36 @@ public class TitleScreenUINavigation : MonoBehaviour, InputSystem_Actions.IUIAct
             Debug.LogError("Controls not initialized.");
             return;
         }
+    }
 
-        controlsUI.UI.SetCallbacks(this);
-
-        // --- Initialize first menu ---
+    private void Start()
+    {
         InitializeFirstMenu();
     }
 
     private void OnEnable()
     {
+        StartCoroutine(SetupInputNextFrame());
+
         if (titleSelectionModel != null)
-            titleSelectionModel.OnSectionChanged += HandleSectionChanged;
+            titleSelectionModel.OnSectionChanged += HandleSectionChanged;    
+
+        Debug.Log("Controls asset: " + controlsUI);
+        Debug.Log("UI map enabled: " + controlsUI.UI.enabled);
     }
     private void OnDisable()
     {
-        if (controlsUI != null)
-            controlsUI.UI.SetCallbacks(null);
+        UIInputRouter.Instance.ClearOwner(this);
 
         if (titleSelectionModel != null)
             titleSelectionModel.OnSectionChanged -= HandleSectionChanged;
+    }
+
+    private IEnumerator SetupInputNextFrame()
+    {
+        yield return null; // wait 1 frame
+
+        UIInputRouter.Instance.SetOwner(this);
     }
 
     private void InitializeFirstMenu()
@@ -108,54 +113,10 @@ public class TitleScreenUINavigation : MonoBehaviour, InputSystem_Actions.IUIAct
         }
     }
 
-    public void OnNavigate(InputAction.CallbackContext context)
+    public override void OnSubmit(InputAction.CallbackContext context)
     {
-        if (!context.performed || currentSelectables.Count == 0)
-            return;
+        base.OnSubmit(context);
 
-        if (Time.time - lastNavigateTime < navigateCooldown)
-            return;
-
-        Vector2 navigation = context.ReadValue<Vector2>();
-
-        int previousIndex = currentIndex;
-
-        if (navigation.y <= -0.5f) // Down
-        {
-            currentIndex = (currentIndex + 1) % currentSelectables.Count;
-        }
-        else if (navigation.y >= 0.5f) // Up
-        {
-            currentIndex = (currentIndex - 1 + currentSelectables.Count) % currentSelectables.Count;
-        }
-        else
-        {
-            return;
-        }
-
-        currentSelectables[previousIndex].OnDeselected();
-        currentSelectables[currentIndex].OnSelected();
-
-        AudioManager.Instance.PlaySfx("fingersnap");
-
-        lastNavigateTime = Time.time;
+        // extra title logic here
     }
-
-    public void OnSubmit(InputAction.CallbackContext context)
-    {
-        if (!context.performed || currentSelectables.Count == 0)
-            return;
-
-        currentSelectables[currentIndex].OnSubmit();
-    }
-
-    // Unused interface methods
-    public void OnCancel(InputAction.CallbackContext context) { }
-    public void OnClick(InputAction.CallbackContext context) { }
-    public void OnMiddleClick(InputAction.CallbackContext context) { }
-    public void OnPoint(InputAction.CallbackContext context) { }
-    public void OnRightClick(InputAction.CallbackContext context) { }
-    public void OnScrollWheel(InputAction.CallbackContext context) { }
-    public void OnTrackedDeviceOrientation(InputAction.CallbackContext context) { }
-    public void OnTrackedDevicePosition(InputAction.CallbackContext context) { }
 }
