@@ -6,6 +6,8 @@ public class PersistantCanvas : MonoBehaviour
 
     public void Awake()
     {
+
+        Debug.Log("another test");
         if(Instance != null)
         {
             Destroy(gameObject);

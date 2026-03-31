@@ -11,6 +11,7 @@ public class StartButtonController : BasicClickController, IUISelectable
     protected override void Awake()
     {
         base.Awake();
+        Debug.Log("Button ready start");
         if (visual == null)
             visual = GetComponent<UIButtonVisual>();
     }

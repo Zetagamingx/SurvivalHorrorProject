@@ -3,12 +3,16 @@ using UnityEngine.InputSystem;
 
 public class SaveStationController : MonoBehaviour, IInteractable
 {
-    public GameObject saveScreen;
+    [SerializeField] GameObject backgroundImage;
+    [SerializeField] private GameObject sectionContainer;
+    [SerializeField] private PauseSelectionModel pauseSelectionModel;
     private bool isPlayerInside = false;
 
     public bool IsPlayerInside => isPlayerInside;
+    //public GameObject saveScreen;
 
     public string InteractionPrompt => "Press E to save";
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -36,13 +40,15 @@ public class SaveStationController : MonoBehaviour, IInteractable
     }
     public void ActivateSaveScreen()
     {
-        if (!saveScreen.activeSelf)
+        if (pauseSelectionModel == null)
         {
-            saveScreen.SetActive(true);
-            Time.timeScale = 0f;
-            
+            Debug.LogError("PauseSelectionModel not assigned");
+            return;
         }
+
+        InGameMenuController.Instance.OpenMenu();
+        pauseSelectionModel.EnterSaveSection();
     }
 
-  
+
 }

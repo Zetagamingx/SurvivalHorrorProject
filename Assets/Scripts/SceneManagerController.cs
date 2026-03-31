@@ -76,4 +76,18 @@ public class SceneManagerController : MonoBehaviour
             Destroy(obj.gameObject);
         }
     }
+
+    public GameScene GetCurrentGameScene()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+
+        foreach (var pair in sceneMap)
+        {
+            if (pair.Value == currentSceneName)
+                return pair.Key;
+        }
+
+        Debug.LogWarning("Current scene not found in sceneMap!");
+        return GameScene.TitleScreen; // fallback
+    }
 }

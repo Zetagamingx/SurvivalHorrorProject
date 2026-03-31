@@ -58,7 +58,22 @@ public class UIInputRouter : MonoBehaviour
         if (currentOwner != owner)
             return;
 
-        controls.UI.SetCallbacks(null);
+        if (controls == null)
+        {
+            Debug.LogWarning("ClearOwner: controls is null");
+            return;
+        }
+
+        // Optional: extra safety if you want
+        try
+        {
+            controls.UI.SetCallbacks(null);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"ClearOwner failed: {e.Message}");
+        }
+
         currentOwner = null;
     }
 }

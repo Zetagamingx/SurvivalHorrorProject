@@ -91,10 +91,13 @@ public class ExplosiveWallController : MonoBehaviour, IInteractable
         // Re-enable movement
         InputManagerController.Instance.SetPlayerMovement(true);
 
-        explosionCutScene.SetActive(false);
+        
 
         // Unsubscribe (VERY IMPORTANT)
         director.stopped -= OnCutSceneFinished;
+
+        explosionCutScene.SetActive(false);
+        
     }
 
     private void ShowDialogue(string message)

@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour, InputSystem_Actions.IPlayerAction
     public GameObject characterMainObject;
     public int moveSpeed;
     public bool isWalking = false;
-    public float rotationSpeed = 10f;
+    public float rotationSpeed = 9f;
     
 
     
@@ -183,7 +183,17 @@ public class PlayerController : MonoBehaviour, InputSystem_Actions.IPlayerAction
     {
         if (!context.performed) return;
 
-        PauseBlurController.Instance.ActivateBluer();
-        PauseGameController.Instance.PauseGame();
+        if (context.performed && !InGameMenuController.Instance.isMenuOpen) 
+        {
+            PauseBlurController.Instance.ActivateBluer();
+            InGameMenuController.Instance.OpenMenu();
+        }
+
+        else if (context.performed && InGameMenuController.Instance.isMenuOpen)
+        {
+            PauseBlurController.Instance.ActivateBluer();
+            InGameMenuController.Instance.CloseMenu();
+        }
+        
     }
 }

@@ -43,9 +43,13 @@ public class PauseMenuNavigation : UINavigationBase
         Debug.Log("Controls asset: " + controlsUI);
         Debug.Log("UI map enabled: " + controlsUI.UI.enabled);
     }
+
     private void OnDisable()
     {
-        UIInputRouter.Instance.ClearOwner(this);
+        if (UIInputRouter.Instance != null)
+        {
+            UIInputRouter.Instance.ClearOwner(this);
+        }
 
         if (pauseSelectionModel != null)
             pauseSelectionModel.OnPauseSectionChanged -= HandleSectionChanged;
@@ -68,7 +72,6 @@ public class PauseMenuNavigation : UINavigationBase
 
         SetActiveMenu(defaultMenuRoot);
     }
-
 
     public void SetActiveMenu(Transform menuRoot)
     {
@@ -102,15 +105,33 @@ public class PauseMenuNavigation : UINavigationBase
 
     private void HandleSectionChanged()
     {
-        // Find the active child section
-        foreach (Transform child in transform)
+        string sectionName = pauseSelectionModel.CurrentSection;
+
+        Debug.Log("=== HandleSectionChanged ===");
+        Debug.Log("Looking for section: " + sectionName);
+
+        if (defaultMenuRoot == null)
         {
-            if (child.gameObject.activeSelf)
-            {
-                SetActiveMenu(child);
-                break;
-            }
+            Debug.LogError("defaultMenuRoot is NULL");
+            return;
         }
+
+        Debug.Log("DefaultMenuRoot is: " + defaultMenuRoot.name);
+
+        foreach (Transform child in defaultMenuRoot)
+        {
+            Debug.Log("Child under defaultMenuRoot: " + child.name);
+        }
+
+        Transform target = defaultMenuRoot.Find(sectionName);
+
+        if (target == null)
+        {
+            Debug.LogError($"Section not found: {sectionName}");
+            return;
+        }
+
+        SetActiveMenu(target);
     }
 
     public override void OnSubmit(InputAction.CallbackContext context)
@@ -119,6 +140,4 @@ public class PauseMenuNavigation : UINavigationBase
 
         // extra title logic here
     }
-
-    
 }

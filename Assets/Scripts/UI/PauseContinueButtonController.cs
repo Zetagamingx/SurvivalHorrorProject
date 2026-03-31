@@ -21,11 +21,11 @@ public class PauseContinueButtonController : BasicClickController, IUISelectable
 
     public void OnSubmit()
     {
-        PauseGameController.Instance.PauseGame();
+        InGameMenuController.Instance.CloseMenu();
     }
 
     protected override void OnClick()
     {
-        PauseGameController.Instance.PauseGame();
+        InGameMenuController.Instance.CloseMenu();
     }
 }

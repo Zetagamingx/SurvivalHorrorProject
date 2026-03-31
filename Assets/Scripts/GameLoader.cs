@@ -17,25 +17,26 @@ public class GameLoader : MonoBehaviour
 
     public void ContinueGame()
     {
+        SaveData data = SaveSystemV3.LoadSaveDataOnly();
+
+        if (data == null)
+        {
+            Debug.LogWarning("No save file found");
+            return;
+        }
+
         shouldLoadSavedData = true;
-        SceneManagerController.Instance.LoadScene(GameScene.IntroScene);
+
+        SceneManagerController.Instance.LoadScene(data.scene);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (shouldLoadSavedData && scene.name == "IntroScene")
+        if (shouldLoadSavedData)
         {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null)
-            {
-                Vector3 savedPos = SaveSystem.LoadPlayerPosition();
-                player.transform.position = savedPos;
-                Debug.Log("Player position loaded: " + savedPos);
-            }
-            else
-            {
-                Debug.LogWarning("Player not found in scene to apply loaded position.");
-            }
+            SaveSystemV3.LoadGame();
+
+            Debug.Log("Game state loaded");
 
             shouldLoadSavedData = false;
         }

@@ -5,8 +5,6 @@ public class ReturnTitleButtonController : BasicClickController, IUISelectable
 {
     [SerializeField] private UIButtonVisual visual;
 
-    public static event Action OnBackToTitle;
-
     protected override void Awake()
     {
         base.Awake();
