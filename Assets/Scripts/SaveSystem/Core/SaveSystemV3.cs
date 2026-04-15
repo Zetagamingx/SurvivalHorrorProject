@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -6,6 +7,9 @@ public class SaveSystemV3
 {
     private static string filePath = Application.persistentDataPath + "/saveData1.json";
     //[System.Diagnostics.DebuggerStepThrough]
+
+    public static bool isLoading = false;
+
     public static void SaveGame(Transform playerTransform)
     {
         Debug.Log("BREAK TEST A");   // put breakpoint here
@@ -55,11 +59,24 @@ public class SaveSystemV3
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null && data.player != null)
         {
-            player.transform.position = data.player.ToVector3();
+            var rb = player.GetComponent<Rigidbody>();
+
+            if (rb != null)
+            {
+                rb.isKinematic = true;
+            }
+
+            rb.position = data.player.ToVector3();
+
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
         }
 
         //  Restore objects
-        var saveables = Object.FindObjectsByType<SaveableObject>(
+        var saveables = UnityEngine.Object.FindObjectsByType<SaveableObject>(
             FindObjectsInactive.Include,
             FindObjectsSortMode.None
         );

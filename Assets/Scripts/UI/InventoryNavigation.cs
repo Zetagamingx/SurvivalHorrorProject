@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using System.Collections;
 
-public class InventoryNavigation : MonoBehaviour, InputSystem_Actions.IUIActions
+public class InventoryNavigation : MonoBehaviour //InputSystem_Actions.IUIActions
 {
-    [Header("UI References")]
+   /** [Header("UI References")]
     public GameObject inventoryRoot;        // Entire inventory UI
     public GameObject buttonContainer;      // Parent of 3 buttons
 
@@ -136,4 +136,5 @@ public class InventoryNavigation : MonoBehaviour, InputSystem_Actions.IUIActions
     public void OnScrollWheel(InputAction.CallbackContext context) { }
     public void OnTrackedDeviceOrientation(InputAction.CallbackContext context) { }
     public void OnTrackedDevicePosition(InputAction.CallbackContext context) { }
+   */
 }

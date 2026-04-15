@@ -54,6 +54,9 @@ public class PlayerController : MonoBehaviour, InputSystem_Actions.IPlayerAction
 
     void FixedUpdate()
     {
+        if (SaveSystemV3.isLoading)
+            return;
+
         transform.Rotate(Vector3.up, mouseX * rotationSpeed * Time.fixedDeltaTime);
 
         Vector3 camForward = Camera.main.transform.forward;
@@ -173,9 +176,9 @@ public class PlayerController : MonoBehaviour, InputSystem_Actions.IPlayerAction
 
     public void OnInventoryAccess(InputAction.CallbackContext context)
     {
-        if (!context.performed) return;
+       /** if (!context.performed) return;
         
-        InventoryNavigation.Instance.ToggleInventory();
+        InventoryNavigation.Instance.ToggleInventory();*/
 
     }
 

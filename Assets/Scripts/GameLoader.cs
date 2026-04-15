@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using System.Collections;
 
 public class GameLoader : MonoBehaviour
 {
@@ -34,11 +36,30 @@ public class GameLoader : MonoBehaviour
     {
         if (shouldLoadSavedData)
         {
-            SaveSystemV3.LoadGame();
-
-            Debug.Log("Game state loaded");
-
+            StartCoroutine(LoadGameRoutine());
             shouldLoadSavedData = false;
         }
+    }
+
+    private IEnumerator LoadGameRoutine()
+    {
+        SaveSystemV3.isLoading = true;
+
+        SaveSystemV3.LoadGame();
+
+        //  Wait for physics step to finish
+        yield return new WaitForFixedUpdate();
+
+        var player = GameObject.FindGameObjectWithTag("Player");
+        var rb = player.GetComponentInChildren<Rigidbody>();
+
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+        }
+
+        SaveSystemV3.isLoading = false;
+
+        Debug.Log("Game state loaded");
     }
 }
