@@ -24,16 +24,16 @@ public class PersistantPlayer : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("PLAYER UPDATE POS: " + transform.position);
+        //Debug.Log("PLAYER UPDATE POS: " + transform.position);
     }
 
     void LateUpdate()
     {
-        if (lastPos != transform.position)
+        /*if (lastPos != transform.position)
         {
             Debug.Log($"POSITION CHANGED from {lastPos}  {transform.position}");
         }
 
-        lastPos = transform.position;
+        lastPos = transform.position;*/
     }
 }

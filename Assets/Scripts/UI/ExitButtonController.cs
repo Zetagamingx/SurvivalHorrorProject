@@ -13,29 +13,29 @@ public class ExitButtonController : BasicClickController, IUISelectable
     }
     protected override void OnClick()
     {
-        SceneManagerController.Instance.LoadScene(GameScene.IntroScene);
+        visual.PlayPressed();
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
     }
 
     public void OnDeselected()
-    {
+    {        
         visual.SetHighlighted(false);
     }
 
     public void OnSelected()
     {
+        Debug.Log($"ExitButton is selected");
         visual.SetHighlighted(true);
+
     }
 
     public void OnSubmit()
     {
-        visual.PlayPressed();
-
-        // Call ViewModel / Model logic here
-        Debug.Log("Start button pressed.");
-        #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
+        
     }
 }

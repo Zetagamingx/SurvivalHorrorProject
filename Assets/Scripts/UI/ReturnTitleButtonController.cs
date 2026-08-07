@@ -18,6 +18,7 @@ public class ReturnTitleButtonController : BasicClickController, IUISelectable
 
     public void OnSelected()
     {
+        Debug.Log($"ReturnToTitle is selected");
         visual.SetHighlighted(true);
     }
 

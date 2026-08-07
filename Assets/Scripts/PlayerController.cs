@@ -34,12 +34,23 @@ public class PlayerController : MonoBehaviour, InputSystem_Actions.IPlayerAction
 
     public void OnEnable()
     {
-       
+        Debug.Log("PlayerController OnEnable: " + gameObject.name);
+
+        if (InputManagerController.Instance != null)
+        {
+            InputManagerController.Instance.controls.Player.SetCallbacks(this);
+            Debug.Log("Callbacks set");
+        }
     }
 
     public void OnDisable()
     {
-       
+        Debug.Log("PlayerController OnDisable: " + gameObject.name);
+
+        if (InputManagerController.Instance != null)
+        {
+            InputManagerController.Instance.controls.Player.RemoveCallbacks(this);
+        }
     }
     void Start()
     {
@@ -186,17 +197,28 @@ public class PlayerController : MonoBehaviour, InputSystem_Actions.IPlayerAction
     {
         if (!context.performed) return;
 
-        if (context.performed && !InGameMenuController.Instance.isMenuOpen) 
+        var menu = InGameMenuController.Instance;
+        var model = menu.PauseSelectionModel; // expose this with a public getter
+
+        if (!menu.isMenuOpen)
         {
             PauseBlurController.Instance.ActivateBluer();
-            InGameMenuController.Instance.OpenMenu();
+            menu.OpenMenu();
+        }
+        else
+        {
+            PauseBlurController.Instance.ActivateBluer();
+
+            // If we're in SaveSection, go back to MainSection first
+            if (model.CurrentSection == "SaveSection")
+            {
+                model.ExitSaveSection();
+            }
+            else
+            {
+                menu.CloseMenu();
+            }
         }
 
-        else if (context.performed && InGameMenuController.Instance.isMenuOpen)
-        {
-            PauseBlurController.Instance.ActivateBluer();
-            InGameMenuController.Instance.CloseMenu();
-        }
-        
     }
 }

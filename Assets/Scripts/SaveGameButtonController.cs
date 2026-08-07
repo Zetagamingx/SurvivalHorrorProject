@@ -38,6 +38,7 @@ public class SaveGameButtonController : BasicClickController, IUISelectable
 
     public void OnSelected()
     {
+        Debug.Log($"SaveGame is selected");
         visual.SetHighlighted(true);
     }
 

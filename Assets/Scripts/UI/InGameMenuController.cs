@@ -10,6 +10,8 @@ public class InGameMenuController : MonoBehaviour
 
     [SerializeField] private string mainSectionName = "MainSection";
 
+    public PauseSelectionModel PauseSelectionModel => pauseSelectionModel;
+
     public bool isMenuOpen = false;
     private bool IsOnMainSection =>
         pauseSelectionModel.CurrentSection == mainSectionName;
@@ -29,6 +31,8 @@ public class InGameMenuController : MonoBehaviour
 
     public void OpenMenu()
     {
+        Debug.Log($"[MENU] OpenMenu - CurrentSection = {pauseSelectionModel.CurrentSection}");
+
         if (!isMenuOpen)
         {
             Time.timeScale = 0f;
@@ -42,14 +46,18 @@ public class InGameMenuController : MonoBehaviour
 
     public void CloseMenu()
     {
-        if (isMenuOpen)
-        {
-            Time.timeScale = 1f;
-            isMenuOpen = false;
+        if (!isMenuOpen) return;
+        Debug.Log($"[MENU] CloseMenu BEFORE reset: {pauseSelectionModel.CurrentSection}");
 
-            bgImage.SetActive(false);
-            sectionContainer.SetActive(false);
-        }
+        pauseSelectionModel.ResetToDefault();
+
+        Debug.Log($"[MENU] CloseMenu AFTER reset: {pauseSelectionModel.CurrentSection}");
+
+        Time.timeScale = 1f;
+        isMenuOpen = false;
+
+        bgImage.SetActive(false);
+        sectionContainer.SetActive(false);
     }
 
     private void OnEnable()

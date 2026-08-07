@@ -20,6 +20,7 @@ public class TitleSelectionController : BasicClickController, IUISelectable
     }
     protected override void OnClick()
     {
+        visual.SetHighlighted(false);
         titleSelectionModel.ShowSection(SectionToActivate);
         AudioManager.Instance.PlaySfx("emptybottlebump");
     }
@@ -31,6 +32,7 @@ public class TitleSelectionController : BasicClickController, IUISelectable
 
     public void OnSelected()
     {
+        Debug.Log($"TitleSelectionButton is selected");
         visual.SetHighlighted(true);
     }
 

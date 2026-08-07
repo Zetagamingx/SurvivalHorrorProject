@@ -5,13 +5,15 @@ public class LoadGameButtonController : BasicClickController, IUISelectable
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] private UIButtonVisual visual;
-    [SerializeField] private GameLoader loader;
+    
 
     protected override void Awake()
     {
         base.Awake();
         if (visual == null)
             visual = GetComponent<UIButtonVisual>();
+
+        
     }
     protected override void OnClick()
     {
@@ -25,6 +27,7 @@ public class LoadGameButtonController : BasicClickController, IUISelectable
 
     public void OnSelected()
     {
+        Debug.Log($"LoadGame is selected");
         visual.SetHighlighted(true);
     }
 
@@ -32,9 +35,15 @@ public class LoadGameButtonController : BasicClickController, IUISelectable
     {
         visual.PlayPressed();
         AudioManager.Instance.PlaySfx("crackedoor");
-        loader.ContinueGame();
+        if (GameLoader.Instance == null)
+        {
+            Debug.LogError("GameLoader.Instance is NULL");
+            return;
+        }
 
-        Debug.Log("Start button pressed.");
+        GameLoader.Instance.ContinueGame();
+
+        Debug.Log("load game button pressed.");
     }
 }
 

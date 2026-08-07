@@ -21,6 +21,7 @@ public class ResumeButtonController : BasicClickController, IUISelectable
 
     public void OnSelected()
     {
+        Debug.Log($"ResumeButton is selected");
         visual.SetHighlighted(true);
     }
 

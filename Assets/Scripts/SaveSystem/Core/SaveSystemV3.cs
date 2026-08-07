@@ -24,7 +24,7 @@ public class SaveSystemV3
         //Scene
 
         data.scene = SceneManagerController.Instance.GetCurrentGameScene();
-
+        Debug.Log($"Saved scene: {data.scene}");
         // Objects
         List<SaveableObject> saveables = SaveRegistry.GetAll();
         foreach (var obj in saveables)
@@ -42,6 +42,7 @@ public class SaveSystemV3
 
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(filePath, json);
+        Debug.Log("Game has been saved");
     }
 
     public static void LoadGame()
@@ -103,6 +104,8 @@ public class SaveSystemV3
         }
 
         Debug.Log("Game Loaded");
+        
+        
     }
 
     public static SaveData LoadSaveDataOnly()

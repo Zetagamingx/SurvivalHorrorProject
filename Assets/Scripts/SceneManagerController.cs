@@ -46,8 +46,13 @@ public class SceneManagerController : MonoBehaviour
 
     public AsyncOperation LoadSceneAsync(GameScene scene)
     {
+        Debug.Log($"Trying to load enum: {scene}");
+
         if (sceneMap.TryGetValue(scene, out string sceneName))
+        {
+            Debug.Log($"Loading scene name: {sceneName}");
             return SceneManager.LoadSceneAsync(sceneName);
+        }
         else
         {
             Debug.LogWarning("Scene not found in sceneMap!");

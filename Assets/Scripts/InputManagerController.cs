@@ -6,6 +6,7 @@ public class InputManagerController : MonoBehaviour
     public static InputManagerController Instance;
     public InputSystem_Actions controls;
     public bool shouldMove = true;
+    private bool isLoading;
 
     private void Awake()
     {
@@ -24,15 +25,36 @@ public class InputManagerController : MonoBehaviour
 
     public void SetPlayerMovement(bool value)
     {
-        if (shouldMove == value)
+        shouldMove = value;
+
+        if (controls == null)
             return;
 
-        shouldMove = value;
+        if (isLoading)
+            return;
 
         if (shouldMove)
             controls.Player.Enable();
         else
             controls.Player.Disable();
+    }
+
+    public void SetLoadingState(bool value)
+    {
+        isLoading = value;
+
+        if (controls == null)
+            return;
+
+        if (value)
+        {
+            controls.Player.Disable();
+        }
+        else
+        {
+            if (shouldMove)
+                controls.Player.Enable();
+        }
     }
 
     public void ReinitializeControls()

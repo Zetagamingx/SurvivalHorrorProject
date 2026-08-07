@@ -5,10 +5,20 @@ using System.Collections;
 
 public class GameLoader : MonoBehaviour
 {
+    public static GameLoader Instance;
+
     private bool shouldLoadSavedData = false;
 
     private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -26,6 +36,8 @@ public class GameLoader : MonoBehaviour
             Debug.LogWarning("No save file found");
             return;
         }
+
+        InputManagerController.Instance.SetLoadingState(true);
 
         shouldLoadSavedData = true;
 
@@ -59,6 +71,15 @@ public class GameLoader : MonoBehaviour
         }
 
         SaveSystemV3.isLoading = false;
+
+        var controller = player.GetComponent<PlayerController>();
+        if (controller != null)
+        {
+            InputManagerController.Instance.controls.Player.SetCallbacks(controller);
+            Debug.Log("FORCED REBIND AFTER LOAD");
+        }
+
+        InputManagerController.Instance.SetLoadingState(false);
 
         Debug.Log("Game state loaded");
     }

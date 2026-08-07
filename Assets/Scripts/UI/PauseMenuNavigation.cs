@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PauseMenuNavigation : UINavigationBase
 {
     [SerializeField] private PauseSelectionModel pauseSelectionModel;
+    [SerializeField] private Transform sectionContainer;
     [SerializeField] private Transform defaultMenuRoot;
 
     private InputSystem_Actions controlsUI;
@@ -30,7 +31,7 @@ public class PauseMenuNavigation : UINavigationBase
 
     private void Start()
     {
-        InitializeFirstMenu();
+        //InitializeFirstMenu();
     }
 
     private void OnEnable()
@@ -39,6 +40,8 @@ public class PauseMenuNavigation : UINavigationBase
 
         if (pauseSelectionModel != null)
             pauseSelectionModel.OnPauseSectionChanged += HandleSectionChanged;
+
+        InitializeFirstMenu();
 
         Debug.Log("Controls asset: " + controlsUI);
         Debug.Log("UI map enabled: " + controlsUI.UI.enabled);
@@ -70,11 +73,21 @@ public class PauseMenuNavigation : UINavigationBase
             return;
         }
 
+        pauseSelectionModel.ResetToDefault();
         SetActiveMenu(defaultMenuRoot);
     }
 
     public void SetActiveMenu(Transform menuRoot)
     {
+        Debug.Log($"[NAV] SetActiveMenu called with: {menuRoot.name}");
+
+        Debug.Log($"[NAV] Searching inside: {menuRoot.name}");
+
+        foreach (Transform t in menuRoot.GetComponentsInChildren<Transform>(true))
+        {
+            Debug.Log($"  Child: {t.name}");
+        }
+
         if (menuRoot == null)
         {
             Debug.LogError("[NAV] SetActiveMenu called with NULL");
@@ -123,7 +136,7 @@ public class PauseMenuNavigation : UINavigationBase
             Debug.Log("Child under defaultMenuRoot: " + child.name);
         }
 
-        Transform target = defaultMenuRoot.Find(sectionName);
+        Transform target = sectionContainer.Find(sectionName);
 
         if (target == null)
         {

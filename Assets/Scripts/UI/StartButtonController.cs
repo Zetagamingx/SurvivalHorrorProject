@@ -27,6 +27,7 @@ public class StartButtonController : BasicClickController, IUISelectable
 
     public void OnSelected()
     {
+        Debug.Log($"StartButton is selected");
         visual.SetHighlighted(true);
     }
 

@@ -80,7 +80,7 @@ public class ItemPickup : MonoBehaviour, IObtainable
         }
 
         dialogueController.TryClose();
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
 

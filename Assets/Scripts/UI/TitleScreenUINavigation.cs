@@ -87,7 +87,7 @@ public class TitleScreenUINavigation : UINavigationBase
         foreach (var selectable in selectables)
         {
             currentSelectables.Add(selectable);
-            Debug.Log($"[NAV] Found selectable: {((MonoBehaviour)selectable).name}");
+            //Debug.Log($"[NAV] Found selectable: {((MonoBehaviour)selectable).name}");
         }
 
         Debug.Log($"[NAV] Total selectables: {currentSelectables.Count}");

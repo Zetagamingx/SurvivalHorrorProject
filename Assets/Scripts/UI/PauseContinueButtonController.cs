@@ -16,6 +16,7 @@ public class PauseContinueButtonController : BasicClickController, IUISelectable
 
     public void OnSelected()
     {
+        Debug.Log($"PauseContinue is selected");
         visual.SetHighlighted(true);
     }
 
