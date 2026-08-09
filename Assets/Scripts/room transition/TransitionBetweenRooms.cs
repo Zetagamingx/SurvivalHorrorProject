@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public class TransitionBetweenRooms : MonoBehaviour, IInteractable
+public class TransitionBetweenRooms : MonoBehaviour, IInteract
 {
     public GameObject doorOut;
     
@@ -17,7 +17,7 @@ public class TransitionBetweenRooms : MonoBehaviour, IInteractable
         var player = PersistantPlayer.Instance;
         var rb = player.GetComponent<Rigidbody>();
 
-        player.GetComponent<PlayerDetection>().ClearInteractable();
+        //player.GetComponent<PlayerDetection>().ClearInteractable();
         player.GetComponent<CapsuleCollider>().enabled = false;
         rb.MovePosition(doorOut.transform.position);
         player.GetComponent<CapsuleCollider>().enabled = true;

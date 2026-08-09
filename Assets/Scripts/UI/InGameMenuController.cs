@@ -47,11 +47,9 @@ public class InGameMenuController : MonoBehaviour
     public void CloseMenu()
     {
         if (!isMenuOpen) return;
-        Debug.Log($"[MENU] CloseMenu BEFORE reset: {pauseSelectionModel.CurrentSection}");
+        //Debug.Log($"[MENU] CloseMenu BEFORE reset: {pauseSelectionModel.CurrentSection}");
 
-        pauseSelectionModel.ResetToDefault();
-
-        Debug.Log($"[MENU] CloseMenu AFTER reset: {pauseSelectionModel.CurrentSection}");
+        //Debug.Log($"[MENU] CloseMenu AFTER reset: {pauseSelectionModel.CurrentSection}");
 
         Time.timeScale = 1f;
         isMenuOpen = false;

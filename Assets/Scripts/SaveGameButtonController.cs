@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class SaveGameButtonController : BasicClickController, IUISelectable
 {
-    [SerializeField] PauseSelectionModel pauseSelectionModel;
-    [SerializeField] UIButtonVisual visual;
+    [SerializeField] private GameObject saveSection;
+    [SerializeField] private UIButtonVisual visual;
 
     private Transform playerTransform;
 
@@ -32,7 +32,7 @@ public class SaveGameButtonController : BasicClickController, IUISelectable
     {
         if (playerTransform != null)
         {
-            SaveSystemV3.SaveGame(playerTransform);
+            //SaveSystem.SaveGame(playerTransform);
         }
     }
 
@@ -49,17 +49,15 @@ public class SaveGameButtonController : BasicClickController, IUISelectable
 
     public void OnSubmit()
     {
-        if (playerTransform != null)
-        {
-            SaveSystemV3.SaveGame(playerTransform);
-        }
+       
     }
 
     protected override void OnClick()
     {
         if (playerTransform != null)
         {
-            SaveSystemV3.SaveGame(playerTransform);
+            saveSection.SetActive(true);
+            //SaveSystem.SaveGame(playerTransform);
         }
     }
 }

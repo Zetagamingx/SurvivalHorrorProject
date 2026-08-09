@@ -29,11 +29,12 @@ public class PauseSelectionController : BasicClickController, IUISelectable
 
     public void OnSubmit()
     {
-        pauseSelectionModel.ShowSection(sectionToActivate);
+        
     }
 
     protected override void OnClick()
     {
+        visual.SetHighlighted(false);
         pauseSelectionModel.ShowSection(sectionToActivate);
     }
 }

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35888b9567de80b4c81147317d015106, type: 3}
+  m_Name: WarningCloth
+  m_EditorClassIdentifier: 
+  ItemName: WarningCloth
+  ID: 3
+  Icon: {fileID: 21300000, guid: 3ad90985f1e39b34f87dad6f9127eeda, type: 3}
+  IsStackable: 1
+  category: 4
+  PickupMessage: You found a kerosene soaked cloth
+  Description: 

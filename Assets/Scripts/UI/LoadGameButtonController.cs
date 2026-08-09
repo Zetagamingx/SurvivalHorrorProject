@@ -17,7 +17,17 @@ public class LoadGameButtonController : BasicClickController, IUISelectable
     }
     protected override void OnClick()
     {
-        //
+        visual.PlayPressed();
+        AudioManager.Instance.PlaySfx("crackedoor");
+        if (GameLoader.Instance == null)
+        {
+            Debug.LogError("GameLoader.Instance is NULL");
+            return;
+        }
+
+        GameLoader.Instance.ContinueGame();
+
+        Debug.Log("load game button pressed.");
     }
 
     public void OnDeselected()
@@ -33,17 +43,7 @@ public class LoadGameButtonController : BasicClickController, IUISelectable
 
     public void OnSubmit()
     {
-        visual.PlayPressed();
-        AudioManager.Instance.PlaySfx("crackedoor");
-        if (GameLoader.Instance == null)
-        {
-            Debug.LogError("GameLoader.Instance is NULL");
-            return;
-        }
-
-        GameLoader.Instance.ContinueGame();
-
-        Debug.Log("load game button pressed.");
+        
     }
 }
 

@@ -3711,7 +3711,6 @@ GameObject:
   - component: {fileID: 1472566580}
   - component: {fileID: 1472566581}
   - component: {fileID: 1472566582}
-  - component: {fileID: 1472566583}
   m_Layer: 5
   m_Name: SectionContainer
   m_TagString: Untagged
@@ -3783,20 +3782,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5972688e716e2bb48a763c5020214613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1472566583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1472566578}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0d9fb9f012dd8d44a402f63c8d0607e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  titleSelectionModel: {fileID: 1472566582}
-  defaultMenuRoot: {fileID: 223541493}
 --- !u!1 &1519994800
 GameObject:
   m_ObjectHideFlags: 0

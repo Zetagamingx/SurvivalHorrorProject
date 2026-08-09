@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public static class SaveRegistry
 {
-    private static List<SaveableObject> saveables = new List<SaveableObject>();
+    private static readonly List<SaveableObject> saveables = new();
 
     public static void Register(SaveableObject obj)
     {
@@ -12,8 +12,7 @@ public static class SaveRegistry
 
     public static void Unregister(SaveableObject obj)
     {
-        if (saveables.Contains(obj))
-            saveables.Remove(obj);
+        saveables.Remove(obj);
     }
 
     public static List<SaveableObject> GetAll()

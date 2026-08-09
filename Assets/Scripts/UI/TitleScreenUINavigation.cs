@@ -45,17 +45,13 @@ public class TitleScreenUINavigation : UINavigationBase
     }
     private void OnDisable()
     {
-        UIInputRouter.Instance.ClearOwner(this);
-
         if (titleSelectionModel != null)
             titleSelectionModel.OnSectionChanged -= HandleSectionChanged;
     }
 
     private IEnumerator SetupInputNextFrame()
     {
-        yield return null; // wait 1 frame
-
-        UIInputRouter.Instance.SetOwner(this);
+        yield return null; // wait 1 frame        
     }
 
     private void InitializeFirstMenu()

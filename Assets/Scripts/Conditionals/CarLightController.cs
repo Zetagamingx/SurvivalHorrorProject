@@ -1,46 +1,50 @@
 using NUnit.Framework.Interfaces;
+using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class CarLightController : MonoBehaviour, IInteractable
+public class CarLightController : MonoBehaviour, IInteract
 {
     [SerializeField] private ObtainCondition obtainCondition;
     [SerializeField] private Light carLight1;
     [SerializeField] private Light carLight2;
 
-    private InteractDialogueController dialogueController;
-    private TextMeshProUGUI textMeshPro;
+    [SerializeField] private GameObject interactionDialogueContainer;
+    [SerializeField] private TextMeshProUGUI interactionText;
+
+    [SerializeField] private PlayerActionManager playerActionManager;
+    
     private bool lightsOn = false;
 
     public string InteractionPrompt => "You turned the car lights on";
-
-    private void Start()
-    {
-        dialogueController = InteractDialogueController.Instance;
-        textMeshPro = dialogueController.GetComponentInChildren<TextMeshProUGUI>();
-    }
-
+      
     public void Interact()
     {
-        if (dialogueController.isShowingDialogue)
+      
+        if (!lightsOn)
         {
-            dialogueController.TryClose();
-            return;
+            playerActionManager.DisableActions();
+            interactionDialogueContainer.SetActive(true);
+            interactionText.SetText(InteractionPrompt);
+
+            StartCoroutine(ReturnMovement());
+
+            carLight1.enabled = true;
+            carLight2.enabled = true;
+
+            lightsOn = true;
+
+            obtainCondition.Unlock();
         }
 
-        textMeshPro.text = InteractionPrompt;
-        dialogueController.Show();
+    }
 
-        if (lightsOn)
-            return;        
-
-        carLight1.enabled = true;
-        carLight2.enabled = true;
-
-        lightsOn = true;
-
-        obtainCondition.Unlock();
-
-
+    private IEnumerator ReturnMovement()
+    {
+        yield return new WaitForSecondsRealtime(2);
+        interactionDialogueContainer.SetActive(false);
+        playerActionManager.EnableActions();
+        yield break;
     }
 }

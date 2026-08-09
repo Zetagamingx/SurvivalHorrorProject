@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ResumeButtonController : BasicClickController, IUISelectable
 {
-    [SerializeField] PauseSelectionModel pauseSelectionModel;
+    //[SerializeField] private GameObject saveSectionContainer;
     [SerializeField] UIButtonVisual visual;
     protected override void Awake()
     {
@@ -11,7 +11,6 @@ public class ResumeButtonController : BasicClickController, IUISelectable
         if (visual == null)
             visual = GetComponent<UIButtonVisual>();
 
-        pauseSelectionModel = GetComponentInParent<PauseSelectionModel>();
         
     }
     public void OnDeselected()
@@ -27,11 +26,12 @@ public class ResumeButtonController : BasicClickController, IUISelectable
 
     public void OnSubmit()
     {
-        pauseSelectionModel.ExitSaveSection();
+        
     }
 
     protected override void OnClick()
     {
-        pauseSelectionModel.ExitSaveSection();
+        visual.SetHighlighted(false);
+        //saveSectionContainer.SetActive(false);
     }
 }

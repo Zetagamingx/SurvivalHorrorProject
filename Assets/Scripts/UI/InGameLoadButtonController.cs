@@ -29,11 +29,15 @@ public class InGameLoadButtonController : BasicClickController, IUISelectable
 
     public void OnSubmit()
     {
+       
+    }
+
+    protected override void OnClick()
+    {
+        visual.SetHighlighted(false);
+
         visual.PlayPressed();
         AudioManager.Instance.PlaySfx("crackedoor");
-
-        // Leave the save section first so the menu returns to MainSection
-        pauseSelectionModel.ExitSaveSection();
 
         if (GameLoader.Instance == null)
         {
@@ -44,10 +48,5 @@ public class InGameLoadButtonController : BasicClickController, IUISelectable
         GameLoader.Instance.ContinueGame();
 
         Debug.Log("Load game button pressed.");
-    }
-
-    protected override void OnClick()
-    {
-        OnSubmit();
     }
 }

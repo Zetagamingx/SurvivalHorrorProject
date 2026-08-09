@@ -24,8 +24,7 @@ public class ReturnTitleButtonController : BasicClickController, IUISelectable
 
     public void OnSubmit()
     {
-        visual.PlayPressed();
-        GameRestart.FullRestart();
+        
     }
 
     protected override void OnClick()
