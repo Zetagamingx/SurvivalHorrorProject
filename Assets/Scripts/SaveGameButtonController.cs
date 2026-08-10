@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SaveGameButtonController : BasicClickController, IUISelectable
 {
-    [SerializeField] private GameObject saveSection;
+    [SerializeField] private SaveMenuController saveMenuController;
     [SerializeField] private UIButtonVisual visual;
 
     private Transform playerTransform;
@@ -27,18 +27,10 @@ public class SaveGameButtonController : BasicClickController, IUISelectable
             Debug.LogError("Player not found! Make sure they are tagged 'Player'.");
         }
     }
-
-    public void OnSaveButtonClicked()
-    {
-        if (playerTransform != null)
-        {
-            //SaveSystem.SaveGame(playerTransform);
-        }
-    }
+      
 
     public void OnSelected()
     {
-        Debug.Log($"SaveGame is selected");
         visual.SetHighlighted(true);
     }
 
@@ -54,10 +46,8 @@ public class SaveGameButtonController : BasicClickController, IUISelectable
 
     protected override void OnClick()
     {
-        if (playerTransform != null)
-        {
-            saveSection.SetActive(true);
-            //SaveSystem.SaveGame(playerTransform);
-        }
+       //SaveSystem.SaveGame(playerTransform);
+       saveMenuController.DisableSaveScreen();
+       Debug.Log("Game has been saved");
     }
 }

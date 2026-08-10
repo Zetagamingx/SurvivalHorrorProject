@@ -3,6 +3,7 @@ using UnityEngine;
 public class ContinueToGameButtonController : BasicClickController, IUISelectable
 {
     [SerializeField] UIButtonVisual visual;
+    [SerializeField] PauseMenuController pauseMenuController;
 
     protected override void Awake()
     {
@@ -22,11 +23,11 @@ public class ContinueToGameButtonController : BasicClickController, IUISelectabl
 
     public void OnSubmit()
     {
-        InGameMenuController.Instance.CloseMenu();
+        
     }
 
     protected override void OnClick()
     {
-        InGameMenuController.Instance.CloseMenu();
+        pauseMenuController.ClosePauseMenu();
     }
 }

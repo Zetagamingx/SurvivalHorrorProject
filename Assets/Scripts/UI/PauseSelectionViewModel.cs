@@ -13,13 +13,13 @@ public class PauseSelectionViewModel: MonoBehaviour
 
     private void OnEnable()
     {
-        pauseSelectionModel.OnPauseSectionChanged += OnSectionChanged;
+        pauseSelectionModel.OnSectionChanged += OnSectionChanged;
         OnSectionChanged();
     }
 
     private void OnDisable()
     {
-        pauseSelectionModel.OnPauseSectionChanged -= OnSectionChanged;
+        pauseSelectionModel.OnSectionChanged -= OnSectionChanged;
     }
 
     private void OnSectionChanged()

@@ -12,20 +12,7 @@ public class PauseBlurController : MonoBehaviour
 
     public void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
         Instance = this;
-
-
-        if (!globalVolume.profile.TryGet(out dof))
-        {
-            Debug.LogError("DepthOfField not found in Volume Profile!");
-        }
-        
     }
 
     public void ActivateBluer()

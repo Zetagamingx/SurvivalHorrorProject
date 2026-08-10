@@ -1,23 +1,60 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 
-public class ObtainCondition : MonoBehaviour , IPickupCondition
+public class ObtainCondition : MonoBehaviour, IPickupCondition, IInteract
 {
-    [SerializeField] private string blockedMessage = "I can't take this yet.";
+    [Header("Pickup")]
+    [SerializeField] private ObtainItem obtainItem;
 
-    private bool conditionFulfilled;
+    [Header("Blocked Interaction")]
+    [SerializeField] private string blockedMessage = "";
+    [SerializeField] private GameObject itemDialogueContainer;
+    [SerializeField] private TextMeshProUGUI itemDialogueText;
 
-    public void Unlock()
+    [Header("Player")]
+    [SerializeField] private PlayerActionManager playerActionManager;
+
+    
+
+    public string InteractionPrompt => blockedMessage;
+
+    private void Start()
     {
-        conditionFulfilled = true;
+        obtainItem = GetComponent<ObtainItem>();
+        obtainItem.enabled = false;
     }
-
-    public bool CanPickup()
-    {
-        return conditionFulfilled;
+    public void Unlock()
+    {        
+        obtainItem.enabled = true;
+        enabled = false;
     }
 
     public string GetBlockedMessage()
     {
         return blockedMessage;
+    }
+
+    public void Interact()
+    {
+        ShowBlockedMessage();
+    }
+
+    private void ShowBlockedMessage()
+    {
+        playerActionManager.DisableActions();
+
+        itemDialogueContainer.SetActive(true);
+        itemDialogueText.SetText(GetBlockedMessage());
+
+        StartCoroutine(AllowPlayerMovement());
+    }
+
+    private IEnumerator AllowPlayerMovement()
+    {
+        yield return new WaitForSecondsRealtime(2f);
+
+        itemDialogueContainer.SetActive(false);
+        playerActionManager.EnableActions();
     }
 }

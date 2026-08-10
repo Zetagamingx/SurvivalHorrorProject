@@ -4,11 +4,14 @@ using UnityEngine.InputSystem;
 public class InventoryController : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private GameObject inventoryPanel;
+    [SerializeField] private GameObject inventoryContainer;
+    [SerializeField] private SimpleStateMachine stateMachine;
+    [SerializeField] public string openingSection;
 
     [Header("Input")]
     [SerializeField] private InputActionReference inventoryAction;
     [SerializeField] private PlayerActionManager playerActionManager;
+    
 
     private bool isOpen;
 
@@ -26,7 +29,7 @@ public class InventoryController : MonoBehaviour
 
     private void Start()
     {
-        inventoryPanel.SetActive(false);
+        inventoryContainer.SetActive(false);
         isOpen = false;
     }
 
@@ -35,7 +38,8 @@ public class InventoryController : MonoBehaviour
         playerActionManager.DisableActions();
 
         isOpen = true;
-        inventoryPanel.SetActive(true);
+        inventoryContainer.SetActive(true);
+        stateMachine.SetState(openingSection);
     }
 
     private void CloseInventory()
@@ -43,7 +47,8 @@ public class InventoryController : MonoBehaviour
         playerActionManager.EnableActions();
 
         isOpen = false;
-        inventoryPanel.SetActive(false);
+        stateMachine.SetState(openingSection);
+        inventoryContainer.SetActive(false);
     }
 
     private void ToggleInventory(InputAction.CallbackContext context)

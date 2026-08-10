@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: WarningCloth
   ID: 3
-  Icon: {fileID: 21300000, guid: 3ad90985f1e39b34f87dad6f9127eeda, type: 3}
+  Icon: {fileID: 21300000, guid: 4b588bdb3ad8fcd40b9797c8919f5a55, type: 3}
   IsStackable: 1
   category: 4
   PickupMessage: You found a kerosene soaked cloth

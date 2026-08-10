@@ -5,12 +5,14 @@ public class PlayerActionManager : MonoBehaviour
     [SerializeField] private PlayerMovementController playerMovementController;
     [SerializeField] private PlayerCameraController playerCameraController;
     [SerializeField] private PlayerInteraction playerInteractionController;
+    [SerializeField] private PauseMenuController pauseMenuController;
 
     public void DisableActions()
     {
         playerMovementController.moveAction.action.Disable();
         playerCameraController.lookAction.action.Disable();
         playerInteractionController.interactAction.action.Disable();
+        pauseMenuController.pauseAction.action.Disable();
     }
 
     public void EnableActions()
@@ -18,5 +20,6 @@ public class PlayerActionManager : MonoBehaviour
         playerMovementController.moveAction.action.Enable();
         playerCameraController.lookAction.action.Enable();
         playerInteractionController.interactAction.action.Enable();
+        pauseMenuController.pauseAction.action.Enable();
     }
 }

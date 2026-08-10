@@ -11,12 +11,17 @@ public class PlayerDetection : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<IInteract>(out var interact))
-        {
-            CurrentInteract = interact;
-            Debug.Log($"Assigned: {CurrentInteract}");
-        }
+        IInteract[] interactables = other.GetComponents<IInteract>();
 
+        foreach (IInteract interact in interactables)
+        {
+            if (interact is Behaviour behaviour && behaviour.enabled)
+            {
+                CurrentInteract = interact;
+                Debug.Log($"Assigned: {CurrentInteract}");
+                return;
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
